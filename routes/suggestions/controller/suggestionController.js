@@ -25,6 +25,9 @@ async function createSuggestion(req, res){
             author: req.body.author,
             suggestion: req.body.suggestion,
             });
+        
+        let created = newSuggestion.save();
+
         res.json({message: "success", newSuggestion});
     }catch(e){
         res.json({message: "error", error: e.message})
@@ -33,7 +36,7 @@ async function createSuggestion(req, res){
 
 async function updateSuggestion(req, res){
     try{
-        let updatedSuggestion = await Suggestion.findByIdAndUpdate({id}, body, {new: true});
+        let updatedSuggestion = await Suggestion.findByIdAndUpdate(req.params.id, req.body, {new: true});
         res.json({message: "success", updatedSuggestion});
     }catch(e){
         res.json({message: "error", error: e.message})
@@ -42,7 +45,7 @@ async function updateSuggestion(req, res){
 
 async function deleteSuggestion(req, res){
     try{
-        let deleted = await Suggestion.findByIdAndRemove({id});
+        let deleted = await Suggestion.findByIdAndRemove(req.params.id);
         res.json({message: "success", deleted});
     }catch(e){
         res.json({message: "error", error: e.message})
